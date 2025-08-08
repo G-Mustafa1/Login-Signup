@@ -1,0 +1,11 @@
+# Common ignores
+node_modules
+.env
+dist
+.vscode
+
+# Frontend build
+frontend/dist
+
+# Backend logs
+backend/logs
