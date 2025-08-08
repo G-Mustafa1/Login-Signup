@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 const validator = require('validator');
-const e = require('express');
+
 
 authRouter.post('/signup', async (req, res) => {
     try {
