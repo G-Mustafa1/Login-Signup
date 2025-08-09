@@ -9,26 +9,25 @@ const validator = require('validator');
 authRouter.post('/signup', async (req, res) => {
     try {
         const { firstname, lastname, email, password } = req.body;
-        if (!firstname || !lastname) {
-            throw new Error("Name not found !")
-        } else if (!validator.isEmail(email)) {
-            console.error('Invalid input:', error.message);
-            throw new Error("Email not found !")
-        } else if (!validator.isStrongPassword(password)) {
-            console.error('Invalid input:', error.message);
-            throw new Error("Password not found !")
 
+        if (!firstname || !lastname) {
+            throw new Error("First name and last name are required");
+        }
+        if (!validator.isEmail(email)) {
+            throw new Error("Invalid email format");
+        }
+        if (!validator.isStrongPassword(password)) {
+            throw new Error("Password must be strong (min 8 chars, uppercase, number, symbol)");
         }
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.HASH_PASS));
-
 
         const newUser = new User({
             firstname,
             lastname,
             email,
             password: hashedPassword,
-        })
+        });
 
         await newUser.save();
 
@@ -37,17 +36,17 @@ authRouter.post('/signup', async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
+            sameSite: "none", // ✅ important for cross-site
             maxAge: 24 * 60 * 60 * 1000
-        })
+        });
 
-        res.status(200).send('User signed up successfully')
+        res.status(200).json({ message: 'User signed up successfully' });
 
     } catch (error) {
-        console.error('Error during signup:', error);
-        res.status(500).send('Error during signup', error.message);
+        console.error('Error during signup:', error.message);
+        res.status(500).json({ error: error.message });
     }
-})
+});
 
 
 authRouter.post('/login', async (req, res) => {
