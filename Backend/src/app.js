@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: process.env.CLIENT_URL, // Use environment variable or default to localhost
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,// Allow cookies to be sent with requests
 }))
 app.use('/auth', authRouter);
@@ -20,7 +21,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/about', (req, res) => {
-  res.send('About route 🎉 ')
+  res.send('About route 🎉')
 })
 connectDB()
   .then(() => {
@@ -31,6 +32,7 @@ connectDB()
   });
 
 const PORT = process.env.PORT || 3000;
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

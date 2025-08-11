@@ -5,7 +5,7 @@ dist
 .vscode
 
 # Frontend build
-frontend/dist
+Frontend/dist
 
 # Backend logs
-backend/logs
+Backend/logs
