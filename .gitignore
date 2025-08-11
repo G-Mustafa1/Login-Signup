@@ -4,6 +4,7 @@ node_modules
 dist
 .vscode
 
+
 # Frontend build
 Frontend/dist
 
