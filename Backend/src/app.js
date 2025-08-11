@@ -9,26 +9,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://login-signup-frontend-rosy.vercel.app'
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    // Agar request Postman ya server-to-server ho, origin null hota hai, usko allow kar do
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
-// app.use(cors({
-//   origin: process.env.CLIENT_URL, // Use environment variable or default to localhost
-//   credentials: true,// Allow cookies to be sent with requests
-// }))
+  origin: process.env.CLIENT_URL, // Use environment variable or default to localhost
+  credentials: true,// Allow cookies to be sent with requests
+}))
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.get('/', (req, res) => {

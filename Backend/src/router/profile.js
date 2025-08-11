@@ -12,7 +12,7 @@ profileRouter.get('/getuser', userAuth, async (req, res) => {
         res.status(200).send(user);
     } catch (error) {
         console.error('Error fetching user:', error);
-        res.status(500).send('Error fetching user', error.message);
+        res.status(500).send({ error: 'Error fetching user', message: error.message });
     }
 })
 
@@ -28,7 +28,7 @@ profileRouter.get('/getallusers', userAuth, async (req, res) => {
         }
     } catch (error) {
         console.error('Error fetching all users:', error);
-        res.status(500).send('Error fetching all users', error.message);
+        res.status(500).send({ error: 'Error fetching all users', message: error.message });
     }
 })
 

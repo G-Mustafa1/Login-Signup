@@ -70,15 +70,15 @@ authRouter.post('/login', async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
-            maxAge: 24 * 60 * 60 * 1000,
+            sameSite: "none", // ✅ important for cross-site
+            maxAge: 24 * 60 * 60 * 1000
         });
 
-        res.status(200).send({ message: 'Login successful', user });
+        res.status(200).json({ message: 'Login successful', user });
 
     } catch (error) {
         console.error('Error during login:', error.message);
-        res.status(500).send({ error: 'Error during login', message: error.message });
+        res.status(500).json({ error: 'Error during login', message: error.message });
     }
 });
 
