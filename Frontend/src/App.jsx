@@ -8,12 +8,14 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import axios from './axiosConfig'
 
 
 function App() {
   const [count, setCount] = useState(0)
   const user = useSelector((state) => state.userSlice.user);
   // console.log(user);
+  console.log(axios.defaults.baseURL);
   return (
     <>
       <Navbar />
