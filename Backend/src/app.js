@@ -14,6 +14,13 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,// Allow cookies to be sent with requests
 }))
+
+console.log('Client URL:',process.env.CLIENT_URL)
+console.log('Secret Key:',process.env.SECRET_KEY)
+console.log('Mongo URI:',process.env.MONGO_URL)
+console.log('Port:',process.env.PORT)
+console.log('Hash Password:',process.env.HASH_PASS)
+
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.get('/', (req, res) => {
