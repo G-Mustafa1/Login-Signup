@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv').config();
-const { connectDB } = require('./config/database');
+const {connectDB} = require("./config/database")
 const { profileRouter } = require('./router/profile');
 const { authRouter } = require('./router/auth');
 const cookieParser = require('cookie-parser');
@@ -25,13 +25,8 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
   res.send('About route 🎉')
 })
-connectDB()
-  .then(() => {
-    console.log('Database connected successfully')
-  })
-  .catch((err) => {
-    console.error('Database connection failed', err.message);
-  });
+
+connectDB();
 
 const PORT = process.env.PORT || 3000;
 

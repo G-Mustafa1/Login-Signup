@@ -6,43 +6,76 @@ import PasswordInput from '../components/PasswordInput';
 import { Link } from 'react-router-dom';
 
 const Signup = () => {
-    const navigate = useNavigate();
-    const [form, setForm] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-    });
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
 
+  }
+  // console.log(handleChange())
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!form.firstname.trim()) {
+      Swal.fire('Error', 'Please enter your First Name', 'error');
+      return;
     }
-    // console.log(handleChange())
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post('/auth/signup', form);
-            Swal.fire('Success', res.data, 'success');
-            navigate('/login');
-        } catch (err) {
-            Swal.fire('Error', err?.response?.data?.message || "Something went wrong!",);
-        }
+    if (!form.lastname.trim()) {
+      Swal.fire('Error', 'Please enter your Last Name', 'error');
+      return;
+    }
+    if (form.firstname.length < 3 || form.firstname.length > 12) {
+      Swal.fire('Error', 'First name must be between 3 and 12 characters!', 'error');
+      return;
+    }
+    if (form.lastname.length < 3 || form.lastname.length > 12) {
+      Swal.fire('Error', 'Last name must be between 3 and 12 characters!', 'error');
+      return;
+    }
+    if (!form.email.trim()) {
+      Swal.fire('Error', 'Email is required!', 'error');
+      return;
     }
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(form.email)) {
+      Swal.fire('Error', 'Invalid email format!', 'error');
+      return;
+    }
+    if (!form.password.trim()) {
+      Swal.fire('Error', 'Password is required!', 'error');
+      return;
+    }
 
-    return (
-        // <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-5 shadow-lg rounded bg-white space-y-4">
-        //     <h2 className="text-2xl font-bold text-center text-green-700">Signup</h2>
-        //     <input type="text" name="firstname" placeholder="First Name" onChange={handleChange} className="border p-2 w-full" required />
-        //     <input type="text" name="lastname" placeholder="Last Name" onChange={handleChange} className="border p-2 w-full" required />
-        //     <input type="email" name="email" placeholder="Email" onChange={handleChange} className="border p-2 w-full" required />
-        //     <PasswordInput type="password" name="password" placeholder="Password" onChange={handleChange} className="border p-2 w-full" required />
-        //     <button className="bg-green-600 text-white py-2 px-4 w-full hover:bg-green-700 transition">Signup</button>
-        // </form>
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-500 via-pink-500 to-red-400 px-4">
+    if (form.password.length < 8 || !/[A-Z]/.test(form.password) || !/[0-9]/.test(form.password)) {
+      Swal.fire('Error', 'Password must be at least 8 characters long and contain at least one uppercase letter and one number!', 'error');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await axios.post('/auth/signup', form);
+      Swal.fire('Success', res.data, 'success');
+      navigate('/login');
+    } catch (err) {
+      Swal.fire('Error', err?.response?.data?.message || "Something went wrong!",);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-500 via-pink-500 to-red-400 px-4">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md bg-white p-8 rounded-2xl shadow-2xl animate-fade-in space-y-6"
@@ -105,9 +138,21 @@ const Signup = () => {
 
         <button
           type="submit"
-          className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded shadow-lg hover:scale-105 transition transform duration-300"
+          disabled={loading}
+          className={`w-full py-3 text-white font-bold rounded shadow-lg transition transform duration-300 
+            ${loading ? "bg-purple-400 cursor-not-allowed" : "bg-gradient-to-r from-purple-600 to-pink-500 hover:scale-105"}`}
         >
-            Sign Up
+          {loading ? (
+            <div className="flex justify-center items-center space-x-2">
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="white" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="white" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+              </svg>
+              <span>Signing Up...</span>
+            </div>
+          ) : (
+            "Sign Up"
+          )}
         </button>
 
         <p className="text-center text-sm text-gray-600">
@@ -118,6 +163,6 @@ const Signup = () => {
         </p>
       </form>
     </div>
-    )
+  )
 };
 export default Signup
