@@ -15,7 +15,6 @@ function App() {
   const [count, setCount] = useState(0)
   const user = useSelector((state) => state.userSlice.user);
   // console.log(user);
-  console.log(axios.defaults.baseURL);
   return (
     <>
       <Navbar />
