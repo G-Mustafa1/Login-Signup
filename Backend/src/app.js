@@ -19,7 +19,7 @@ app.use(cors({
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  res.send('Backend is running 🚀')
 })
 
 app.get('/about', (req, res) => {
