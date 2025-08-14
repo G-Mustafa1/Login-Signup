@@ -8,7 +8,6 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import axios from './axiosConfig'
 
 
 function App() {
@@ -19,7 +18,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path='/' element={user ? <Navigate to="/dashbord" /> : <Home />} />
+        <Route path='/' element={<Home />} />
         <Route path='/about' element={<About/>}/>
         <Route path='/contact' element={<Contact/>}/>
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashbord" />} />

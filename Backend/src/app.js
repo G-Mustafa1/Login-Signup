@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: process.env.CLIENT_URL, // Use environment variable or default to localhost
-  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,// Allow cookies to be sent with requests
 }))
 
