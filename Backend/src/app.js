@@ -15,7 +15,7 @@ app.use(cors({
 }))
 
 
-app.use('/auth', authRouter);
+app.use('/auth', authRouter); 
 app.use('/profile', profileRouter);
 app.get('/', (req, res) => {
   res.send('Backend is running 🚀')
