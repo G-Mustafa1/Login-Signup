@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Navbar from './components/Navbar'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Dashbord from './pages/Dashbord'
@@ -8,6 +7,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Layout from '../layout/Layout'
 
 
 function App() {
@@ -16,14 +16,15 @@ function App() {
   // console.log(user);
   return (
     <>
-      <Navbar />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About/>}/>
-        <Route path='/contact' element={<Contact/>}/>
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashbord" />} />
-        <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/dashbord" />} />
-        <Route path="/dashbord" element={user ? <Dashbord /> : <Navigate to="/login" />} />
+        <Route path='/' element={<Layout />}>
+          <Route path='' element={<Home />} />
+          <Route path='about' element={<About />} />
+          <Route path='contact' element={<Contact />} />
+          <Route path='login' element={!user ? <Login /> : <Navigate to="/dashbord" />} />
+          <Route path='signup' element={!user ? <Signup /> : <Navigate to="/dashbord" />} />
+          <Route path='dashbord' element={user ? <Dashbord /> : <Navigate to="/login" />} />
+        </Route>
       </Routes>
     </>
   )
