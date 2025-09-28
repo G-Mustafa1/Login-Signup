@@ -60,7 +60,7 @@ const Navbar = () => {
               <>
                 <li>
                   <NavLink
-                    to="/dashboard"
+                    to="/dashbord"
                     className={({ isActive }) =>
                       `px-3 py-2 rounded-md transition-all duration-200 ${isActive
                         ? 'bg-blue-800 text-white'
